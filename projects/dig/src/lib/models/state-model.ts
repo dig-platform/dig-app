@@ -1,6 +1,6 @@
 import {BehaviorSubject, Observable} from 'rxjs';
 
-export class State {
+export class StateModel {
     private stores: Store[] = [];
 
     constructor(data = null) {

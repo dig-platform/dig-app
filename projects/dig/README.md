@@ -1,24 +1,87 @@
-# Dig
+# DigApps
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.6.
+The vast majority of apps have the same basic platform dependencies:
 
-## Code scaffolding
+* Configuration
+* User authentication
+* Database
+* File storage
+* State
 
-Run `ng generate component component-name --project dig` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project dig`.
-> Note: Don't forget to add `--project dig` or else it will be added to the default project in your `angular.json` file. 
+Thankfully we now have platforms like Firebase to build on that provide almost all of the resources to our app as a service.
 
-## Build
+DigApps creates a lightweight, immutable app container that provides access to these resources in a consistent way.
 
-Run `ng build dig` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Standalone apps
 
-## Publishing
+For single apps use the static `DigPlatform.factory(options: DigAppOptions)` method to avoid unnecessary overhead:
 
-After building your library with `ng build dig`, go to the dist folder `cd dist/dig` and run `npm publish`.
+```typescript
+@Injectable({
+  providedIn: 'root'
+})
+export class TodoService {
+  public readonly app: DigApp = DigPlatform.factory({
+    config: {
+      id: 'todo',
+      status: 'plan',
+      title: 'Todo',
+      description: 'Beginner tutorial',
+      icon: 'construct',
+    },
+    state: {
+      todos: []
+    },
+    adapters: {
+      db: new AngularFirestoreAdapter(this.afs),
+      auth: new AngularFireAuthAdapter(this.auth)
+    }
+  });
 
-## Running unit tests
 
-Run `ng test dig` to execute the unit tests via [Karma](https://karma-runner.github.io).
+  constructor(private afs: AngularFirestore, private auth: AngularFireAuth) {
+  }
+}
+```
 
-## Further help
+## Multi Tenant Apps
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+In multi-tenant environments you can create use an instance of DigPlatform to manage your apps. In this example
+we create a service that serves as a hub for your apps, initializing your todo app.
+
+> note that in this example we also specify the dbRoot, which puts your app's data in a subcollection of your database
+
+```typescript
+@Injectable({
+  providedIn: 'root'
+})
+export class AppHubService {
+  private platform = new DigPlatform();
+
+  get todoApp() {
+    return this.platform.get('todo');
+  }
+
+  constructor(private afs: AngularFirestore, private auth: AngularFireAuth) {
+    this.platform.init({
+      config: {
+        id: 'todo',
+        status: 'plan',
+        dbRoot: 'apps/todoApp',
+        title: 'Todo',
+        description: 'Beginner tutorial',
+        icon: 'construct',
+      },
+      state: {
+        todos: []
+      },
+      adapters: {
+        db: new AngularFirestoreAdapter(this.afs),
+        auth: new AngularFireAuthAdapter(this.auth)
+      }
+    });
+  }
+}
+```
+
+

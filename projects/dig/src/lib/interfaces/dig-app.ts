@@ -4,7 +4,7 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {DigProperties} from './dig-properties';
 import {DigDb} from './dig-db';
 import {DigUser} from './dig-user';
-import {State, Store} from '../classes/state';
+import {StateModel, Store} from '../models/state-model';
 import {Observable} from 'rxjs';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 
@@ -12,13 +12,14 @@ export interface DigApp {
   // Unique app ID
   id: string;
 
-  readonly state: State;
+  readonly state: StateModel;
   readonly config: DigConfig;
   readonly properties: DigProperties;
   readonly user$: Observable<DigUser>;
   readonly user: DigUser;
 
-  db(): AngularFirestore | AngularFirestoreCollection;
-  storage(): AngularFireStorage;
+  // todo figure out how to type these
+  db(): any;
+  storage(): any;
 }
 

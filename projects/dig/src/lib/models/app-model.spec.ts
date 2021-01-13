@@ -1,4 +1,4 @@
-import { App } from './app';
+import { AppModel } from './app-model';
 import {TestBed} from '@angular/core/testing';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
@@ -26,7 +26,7 @@ class StorageMock {
 
 describe('App', () => {
   it('should create an instance', () => {
-    expect(new App({
+    expect(new AppModel({
       config: {id: 'test'},
       state: {tasks: ['test config', 'test state']},
       adapters: {

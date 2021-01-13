@@ -1,6 +1,6 @@
 import {DigConfig} from '../interfaces/dig-config';
 
-export class Config implements DigConfig{
+export class ConfigModel implements DigConfig{
   constructor(
     readonly id: string,
     readonly status?: null | 'new' | 'plan' | 'dev' | 'test' | 'live',
@@ -11,7 +11,7 @@ export class Config implements DigConfig{
   ) { }
 }
 
-export function configFactory(data: any): Config {
+export function configFactory(data: any): ConfigModel {
   const {id, status, firebaseRoot, title, description, icon} = data;
-  return new Config(id, status, firebaseRoot, title, description, icon);
+  return new ConfigModel(id, status, firebaseRoot, title, description, icon);
 }

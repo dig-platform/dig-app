@@ -1,3 +1,5 @@
+export * from './dig-adapter';
+export * from './dig-adapter-callback-function';
 export * from './dig-app';
 export * from './dig-app-options';
 export * from './dig-config';
