@@ -1,6 +1,6 @@
 # [DigApp](../README.md) auth
 
-Auth provides the user state to a DigApp. The user session is provided as both a static getter or an observable stream, and always implements 
+Auth provides the user state to a DigApp. The user session is provided as both a static getter or an observable stream. The result always implements 
 [DigUser](../../projects/dig/docs/interfaces/interfaces.diguser.md).
 
 
