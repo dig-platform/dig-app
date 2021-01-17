@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:docs": "typedoc --out docs/api projects/dig/src/lib",
+    "build:docs:json": "node bin/docs.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
