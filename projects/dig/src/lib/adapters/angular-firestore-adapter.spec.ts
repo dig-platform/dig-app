@@ -1,5 +1,5 @@
 import { AngularFirestoreAdapter } from './angular-firestore-adapter';
-import {FirestoreMock} from '../../test/angular-firebase';
+import {FirestoreMock} from '../../test/test-mocks';
 
 describe('AngularFirestoreAdapter', () => {
   it('should create an instance', () => {

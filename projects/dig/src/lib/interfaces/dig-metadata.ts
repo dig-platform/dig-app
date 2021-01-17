@@ -3,7 +3,8 @@
  */
 export interface DigMetadata {
   createdAt: any;
+  createdBy?: string;
   lastModified?: any;
-  uid?: string;
+  modifiedBy?: string;
   data?: any;
 }

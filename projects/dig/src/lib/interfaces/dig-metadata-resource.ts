@@ -2,5 +2,5 @@
 import {DigMetadata} from './dig-metadata';
 
 export interface DigMetadataResource {
-  metaData: DigMetadata;
+  metaData?: DigMetadata;
 }

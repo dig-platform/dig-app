@@ -9,3 +9,4 @@ export * from './dig-metadata-resource';
 export * from './dig-state';
 export * from './dig-storage';
 export * from './dig-user';
+export * from './dig-document-model';

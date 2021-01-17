@@ -1,0 +1,26 @@
+import {AngularFirestoreCollection, AngularFirestoreDocument, QueryFn} from '@angular/fire/firestore';
+import {Observable} from 'rxjs';
+
+export interface DigDocumentModel {
+    // get the firebase collection for the document collection
+    collection(query?: QueryFn): AngularFirestoreCollection;
+
+    // get the firebase document
+    doc(id: string): AngularFirestoreDocument<any>;
+
+    // add a new document
+    post(doc: any): Promise<any>;
+
+    // update an existing document
+    patch(id: string, doc: any): Promise<any>;
+
+    // replace an existing document
+    put(id: string, doc: any): Promise<any>;
+
+    // delete a document
+    delete(id: string): Promise<any>;
+
+    // find a document
+    get(id: string): Observable<any> | Promise<any>;
+
+}

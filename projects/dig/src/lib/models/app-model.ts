@@ -8,12 +8,15 @@ import {DigConfig} from '../interfaces/dig-config';
 import {Observable} from 'rxjs';
 import {DigAppOptions} from '../interfaces/dig-app-options';
 import {configFactory} from './config-model';
+import {DigDbModel} from './dig-db-model';
 
 export class AppModel implements DigApp{
   private stateContainer = new StateModel(this.options.state);
   private userSession = new Store('dig-user');
   public readonly user$: Observable<DigUser> = this.userSession.current$;
-  public readonly user: DigUser = this.userSession.current;
+  get user(): DigUser {
+    return this.userSession.current;
+  }
 
   get config(): DigConfig {
     return configFactory(this.options.config);
@@ -31,7 +34,6 @@ export class AppModel implements DigApp{
       icon: this.config.description
     };
   }
-
 
   get state(): StateModel {
     return this.stateContainer;
@@ -57,5 +59,10 @@ export class AppModel implements DigApp{
 
   storage(): AngularFireStorage {
     return this.options.adapters && this.options.adapters.storage ? this.options.adapters.storage.ref(this.config) : undefined;
+  }
+
+  // creates a model instance
+  model(collectionPath: string): DigDbModel {
+    return new DigDbModel(collectionPath, this.db());
   }
 }

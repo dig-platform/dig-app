@@ -1,5 +1,5 @@
 import { AngularFireAuthAdapter } from './angular-fire-auth-adapter';
-import {AuthMock} from '../../test/angular-firebase';
+import {AuthMock} from '../../test/test-mocks';
 
 describe('AngularFireAuthAdapter', () => {
   let mock;
