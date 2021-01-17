@@ -68,4 +68,28 @@ app.state().destroy();
 
 This adapter is currently in the planning stage, please feel free to share ideas on https://dighub.io/community
 
+### CallbackAdapter
+
+If your preferred state provider doesn't have an adapter yet you can handle the state logic yourself with the Callback Adapter:
+
+```typescript
+// create DigApp instance
+const app: DigApp = DigPlatform.factory({
+  config: {
+    id: 'todo-min',
+  },
+  adapters: {
+    state: new DigCallbackAdapter(() => new BehaviorSubject({tasks: ['get the milk']}))
+  }
+});
+
+// log the state
+app.state().subscribe(console.log);
+
+// add a task
+const state = app.state().getValue();
+state.tasks.push('get a steak if they are nice');
+app.state.next(state);
+```
+
 
