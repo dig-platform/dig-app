@@ -74,22 +74,29 @@ If your preferred state provider doesn't have an adapter yet you can handle the 
 
 ```typescript
 // create DigApp instance
+const stateContainer = new BehaviorSubject({tasks: ['get the milk']}));
 const app: DigApp = DigPlatform.factory({
   config: {
     id: 'todo-min',
   },
   adapters: {
-    state: new DigCallbackAdapter(() => new BehaviorSubject({tasks: ['get the milk']}))
+    state: new DigCallbackAdapter(() => {
+        return {
+            get: () => stateContainer.getValue(),
+            getObservable: () => stateContainer.asObservable(),
+            set: (value) => stateContainer.next(value)
+        };
+    })
   }
 });
 
 // log the state
-app.state().subscribe(console.log);
+app.state().getObservable().subscribe(console.log);
 
 // add a task
-const state = app.state().getValue();
+const state = app.state().get();
 state.tasks.push('get a steak if they are nice');
-app.state.next(state);
+app.state().set(state);
 ```
 
 
