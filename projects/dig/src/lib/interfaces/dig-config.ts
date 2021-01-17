@@ -5,10 +5,6 @@ export interface DigConfig {
   // current status
   readonly status?: null | 'new' | 'plan' | 'dev' | 'test' | 'live';
 
-  // set this to put all of your app data in subcollections
-  // typically used for projects that serve multiple apps where you want to avoid collection name conflicts
-  readonly dbRoot?: string;
-
   // app title
   readonly title?: string;
 
@@ -17,7 +13,4 @@ export interface DigConfig {
 
   // app icon
   readonly icon?: string;
-
-  // todo implement storage root
-  readonly storageRoot?: string;
 }

@@ -9,14 +9,9 @@ import {Observable} from 'rxjs';
 import {DigAppOptions} from '../interfaces/dig-app-options';
 import {configFactory} from './config-model';
 import {DigDbModel} from './dig-db-model';
+import {DigAdapter} from '../interfaces';
 
 export class AppModel implements DigApp{
-  private stateContainer = new StateModel(this.options.state);
-  private userSession = new Store('dig-user');
-  public readonly user$: Observable<DigUser> = this.userSession.current$;
-  get user(): DigUser {
-    return this.userSession.current;
-  }
 
   get config(): DigConfig {
     return configFactory(this.options.config);
@@ -35,30 +30,27 @@ export class AppModel implements DigApp{
     };
   }
 
-  get state(): StateModel {
-    return this.stateContainer;
-  }
-
   constructor(private options: DigAppOptions) {
-    if (this.options.adapters.auth) {
-      this.options.adapters.auth.ref(this.config).subscribe(u => {
-        this.userSession.set({
-          uid: u.uid,
-          displayName: u.displayName,
-          email: u.email,
-          phone: u.phone,
-          photoURL: u.photoURL
-        });
-      });
-    }
   }
 
   db(): AngularFirestore | AngularFirestoreCollection<DocumentData> {
-    return this.options.adapters && this.options.adapters.db ? this.options.adapters.db.ref(this.config) : undefined;
+    return this.getAdapter('db');
   }
 
   storage(): AngularFireStorage {
-    return this.options.adapters && this.options.adapters.storage ? this.options.adapters.storage.ref(this.config) : undefined;
+    return this.getAdapter('storage');
+  }
+
+  state(): StateModel {
+    return this.getAdapter('state');
+  }
+
+  auth(): any {
+    return this.getAdapter('auth');
+  }
+
+  getAdapter(key): any {
+    return this.options.adapters && this.options.adapters[key] ? this.options.adapters[key].ref(this.config) : undefined;
   }
 
   // creates a model instance

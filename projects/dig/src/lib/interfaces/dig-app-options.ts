@@ -5,10 +5,11 @@ import {AngularFireStorage} from '@angular/fire/storage';
 
 export interface DigAppOptions {
   config: DigConfig;
-  state: any;
+  // todo type these strictly
   adapters?: {
-    db?: any,
     auth?: any,
+    db?: any,
+    state?: any,
     storage?: any
   };
 }

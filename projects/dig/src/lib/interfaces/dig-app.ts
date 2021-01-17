@@ -12,14 +12,13 @@ export interface DigApp {
   // Unique app ID
   id: string;
 
-  readonly state: StateModel;
   readonly config: DigConfig;
   readonly properties: DigProperties;
-  readonly user$: Observable<DigUser>;
-  readonly user: DigUser;
 
-  // todo figure out how to type these
+  // todo strictly type these with specific adapter responses
   db(): any;
   storage(): any;
+  state(): any;
+  auth(): any;
 }
 
