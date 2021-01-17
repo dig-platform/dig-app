@@ -12,6 +12,7 @@ import {DigDbModel} from './dig-db-model';
 import {DigAdapter} from '../interfaces';
 
 export class AppModel implements DigApp{
+  private adapterRegistry: any = {};
 
   get config(): DigConfig {
     return configFactory(this.options.config);
@@ -50,7 +51,13 @@ export class AppModel implements DigApp{
   }
 
   getAdapter(key): any {
-    return this.options.adapters && this.options.adapters[key] ? this.options.adapters[key].ref(this.config) : undefined;
+    if (! this.options.adapters || ! this.options.adapters.hasOwnProperty(key)) {
+      return undefined;
+    }
+    if (! this.adapterRegistry.hasOwnProperty(key)) {
+      this.adapterRegistry[key] = this.options.adapters[key].ref(this.config);
+    }
+    return this.adapterRegistry[key];
   }
 
   // creates a model instance

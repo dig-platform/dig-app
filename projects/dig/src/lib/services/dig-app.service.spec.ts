@@ -7,7 +7,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {BehaviorSubject} from 'rxjs';
-import {AuthMock, FirestoreMock, StorageMock, TEST_APP_OPTIONS} from '../../test/test-mocks';
+import {AuthMock, FirestoreMock, StorageMock, TEST_APP_OPTIONS, TEST_STATE, testAppOptions} from '../../test/test-mocks';
 
 describe('DigAppService', () => {
   let service: DigAppService;
@@ -37,38 +37,41 @@ describe('DigAppService', () => {
   });
 
   it ('should initialize an app from config', () => {
-    const app = service.init(TEST_APP_OPTIONS);
-    expect(app.id).toEqual(TEST_APP_OPTIONS.config.id);
+    const app = service.init(testAppOptions());
+    expect(app.id).toEqual(testAppOptions().config.id);
   });
 
   it ('should be able to get config', () => {
-    const app = service.init(TEST_APP_OPTIONS);
-    expect(app.config.id).toEqual(TEST_APP_OPTIONS.config.id);
+    const app = service.init(testAppOptions());
+    expect(app.config.id).toEqual(testAppOptions().config.id);
   });
 
   it ('should be able to get properties', () => {
-    const app = service.init(TEST_APP_OPTIONS);
-    expect(app.properties.title).toEqual(TEST_APP_OPTIONS.config.title);
+    const app = service.init(testAppOptions());
+    expect(app.properties.title).toEqual(testAppOptions().config.title);
   });
 
   it ('should be able to get initial state', () => {
-    const app = service.init(TEST_APP_OPTIONS);
-    expect(app.state.get('tasks').current[0]).toEqual(TEST_APP_OPTIONS.state.tasks[0]);
+    const app = service.init(testAppOptions());
+    expect(app.state().get('tasks').current[0]).toEqual(TEST_STATE.tasks[0]);
   });
 
   it ('should be able to update initial state', () => {
-    const app = service.init(TEST_APP_OPTIONS);
-    app.state.get('tasks').set(['new']);
-    expect(app.state.get('tasks').current[0]).toEqual('new');
+    const app = service.init(testAppOptions());
+    console.log('before', app.state().get('tasks').current);
+    app.state().get('tasks').set(['new']);
+    expect(app.state().get('tasks').current[0]).toEqual('new');
   });
   it ('should be able to add additional state containers', () => {
-    const app = service.init(TEST_APP_OPTIONS);
-    app.state.create('new', {test: true});
-    expect(app.state.get('new').current.test).toBeTrue();
+    const app = service.init(testAppOptions());
+    app.state().create('new', {test: true});
+    expect(app.state().get('new').current.test).toBeTrue();
   });
   it ('should get the current user', (done) => {
-    const app = service.init(TEST_APP_OPTIONS);
-    app.user$.subscribe(user => {
+    const app = service.init(testAppOptions());
+    app.auth().current$.subscribe(console.log);
+    console.log(app.auth());
+    app.auth().current$.subscribe(user => {
       expect(user.uid).toEqual('test');
       done();
     });

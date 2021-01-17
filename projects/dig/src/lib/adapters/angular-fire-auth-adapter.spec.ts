@@ -12,7 +12,7 @@ describe('AngularFireAuthAdapter', () => {
     expect(adapter).toBeTruthy();
   });
   it('should get a ref to the current user session', (done) => {
-    adapter.ref({id: 'test'}).subscribe(user => {
+    adapter.ref({id: 'test'}).current$.subscribe(user => {
       expect(user.uid).toEqual('test');
       done();
     });

@@ -4,6 +4,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {DigApp, DigAppOptions, DigConfig, DigUser} from '../lib/interfaces';
 import {DigPlatform} from '../lib/dig-platform';
+import {StateModel} from '../lib/models/state-model';
 
 export class FirestoreMock {
   collection(key, query = null): any {
@@ -49,6 +50,12 @@ export class StorageMock {
   }
 }
 
+export const TEST_STATE = {
+  tasks: [
+    'test task'
+  ]
+};
+
 export const moduleDef = {
   providers: [
     {
@@ -66,34 +73,49 @@ export const moduleDef = {
   ]
 }
 
-export const TEST_DB_ADAPTER = {
-  ref: (options: any) => new FirestoreMock()
-};
-export const TEST_AUTH_ADAPTER = {
-  ref: (options: any) => new AuthMock().authState
-};
-export const TEST_STORAGE_ADAPTER = {
-  ref: (options: any) => new StorageMock()
+export const testDbAdapter = () => {
+  return {ref: (options: any) => new FirestoreMock()};
 };
 
-export const TEST_APP_OPTIONS: DigAppOptions  = {
-  config: {
-    id: 'tasks',
-    status: 'dev',
-    title: 'Test task app',
-    description: 'Make this as easy as possible',
-    icon: 'construct',
-  },
-  state: {
-    tasks: ['test task']
-  },
-  adapters: {
-    db: TEST_DB_ADAPTER,
-    auth: TEST_AUTH_ADAPTER,
-    storage: TEST_STORAGE_ADAPTER,
-  }
+export const testAuthAdapter = () => {
+  return {
+    ref: (options: any) => {
+      return {
+        current: TEST_USER,
+        current$: of(TEST_USER)
+      };
+    }
+  };
+};
+
+export const testStateAdapter = () => {
+    return {ref: (options: any) => new StateModel(TEST_STATE)};
+};
+
+export const testStorageAdapter = () => {
+  return {ref: (options: any) => new StorageMock()};
+};
+
+
+export function testAppOptions(): DigAppOptions {
+  return {
+    config: {
+      id: 'tasks',
+      status: 'dev',
+      title: 'Test task app',
+      description: 'Make this as easy as possible',
+      icon: 'construct',
+    },
+    adapters: {
+      db: testDbAdapter(),
+      auth: testAuthAdapter(),
+      state: testStateAdapter(),
+      storage: testStorageAdapter(),
+    }
+  };
 }
 
+export const TEST_APP_OPTIONS: DigAppOptions  = testAppOptions();
 export const TEST_APP = DigPlatform.factory(TEST_APP_OPTIONS);
 
 
