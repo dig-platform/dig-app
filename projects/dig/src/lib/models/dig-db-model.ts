@@ -4,18 +4,16 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 export enum DigDbModelEvents {
-    beforePost = 'beforePost',
-    afterPost = 'afterPost',
-    beforePut = 'beforePut',
-    afterPut = 'afterPut',
-    beforePatch = 'beforePatch',
-    afterPatch = 'afterPatch',
+    beforeAdd = 'beforeAdd',
+    afterAdd = 'afterAdd',
+    beforeUpdate = 'beforeUpdate',
+    afterUpdate = 'afterUpdate',
     beforeDelete = 'beforeDelete',
     afterDelete = 'afterDelete',
-    beforeGetOne = 'beforeGetOne',
-    afterGetOne = 'afterGetOne',
-    beforeGetList = 'beforeGetList',
-    afterGetList = 'afterGetList',
+    beforeReadDoc = 'beforeReadDoc',
+    afterReadDoc = 'afterReadDoc',
+    beforeReadCollection = 'beforeReadCollection',
+    afterReadCollection = 'afterReadCollection',
 }
 
 // todo replace http verbs with standard firebase actions (add, update, set, etc)
@@ -34,19 +32,19 @@ export class DigDbModel  implements DigDocumentModel {
         return this.collection().doc(id);
     }
 
-    post(doc: any): Promise<any> {
-        doc = this.handleEvent(DigDbModelEvents.beforePost, doc);
-        return this.collection().add(doc).then(res => this.handleEvent(DigDbModelEvents.afterPost, res));
+    add(doc: any): Promise<any> {
+        doc = this.handleEvent(DigDbModelEvents.beforeAdd, doc);
+        return this.collection().add(doc).then(res => this.handleEvent(DigDbModelEvents.afterAdd, res));
     }
 
-    put(id: string, doc: any): Promise<any> {
-        doc = this.handleEvent(DigDbModelEvents.beforePut, doc);
-        return this.doc(id).set(doc).then(res => this.handleEvent(DigDbModelEvents.afterPut, res));
+    set(id: string, doc: any): Promise<any> {
+        doc = this.handleEvent(DigDbModelEvents.beforeUpdate, doc);
+        return this.doc(id).set(doc).then(res => this.handleEvent(DigDbModelEvents.afterUpdate, res));
     }
 
-    patch(id: string, doc: any): Promise<any> {
-        doc = this.handleEvent(DigDbModelEvents.beforePatch, doc);
-        return this.doc(id).update(doc).then(res => this.handleEvent(DigDbModelEvents.afterPatch, res));
+    update(id: string, doc: any): Promise<any> {
+        doc = this.handleEvent(DigDbModelEvents.beforeUpdate, doc);
+        return this.doc(id).update(doc).then(res => this.handleEvent(DigDbModelEvents.afterUpdate, res));
     }
 
     delete(id: string): Promise<any> {
@@ -54,29 +52,29 @@ export class DigDbModel  implements DigDocumentModel {
         return this.doc(id).delete().then(res => this.handleEvent(DigDbModelEvents.afterDelete, res));
     }
 
-    get<T>(query: string | QueryFn): Observable<T> | Promise<T> {
-        if (typeof query === 'string') {
-            this.handleEvent(DigDbModelEvents.beforeGetOne, query);
-            return this.doc(query).valueChanges()
-                .pipe(
-                    map(doc => this.handleEvent(DigDbModelEvents.afterGetOne, Object.assign({}, doc, {id: query})))
-                );
-        } else {
-            this.handleEvent(DigDbModelEvents.beforeGetList, query);
-            return this.collection(query).valueChanges({idField: 'id'})
-                .pipe(
-                    map(collection => this.handleEvent(DigDbModelEvents.afterGetList, collection))
-                );
-        }
+    find<T>(id: string): Observable<T> | Promise<T> {
+      this.handleEvent(DigDbModelEvents.beforeReadDoc, id);
+      return this.doc(id).valueChanges()
+        .pipe(
+          map(doc => this.handleEvent(DigDbModelEvents.afterReadDoc, Object.assign({}, doc, {id})))
+        );
     }
 
-    on(e, callback) {
+    query<T>(query: QueryFn): Observable<T> | Promise<T> {
+      this.handleEvent(DigDbModelEvents.beforeReadCollection, query);
+      return this.collection(query).valueChanges({idField: 'id'})
+        .pipe(
+          map(collection => this.handleEvent(DigDbModelEvents.afterReadCollection, collection))
+        );
+    }
+
+    on(e, callback): any {
         const events = this.events[e] ? this.events[e] : [];
         events.push(callback);
         this.events[e] = events;
     }
 
-    registerPlugin(plugin: any) {
+    registerPlugin(plugin: any): any {
         Object.keys(DigDbModelEvents).map(e => {
            if (plugin.hasOwnProperty(e)) {
                this.on(e, plugin[e]);
@@ -84,7 +82,7 @@ export class DigDbModel  implements DigDocumentModel {
         });
     }
 
-    private handleEvent(event, ref) {
+    private handleEvent(event, ref): any {
         const handler = this.events[event];
         if (handler) {
             let newRef = {...ref};

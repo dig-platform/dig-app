@@ -9,18 +9,24 @@ export interface DigDocumentModel {
     doc(id: string): AngularFirestoreDocument<any>;
 
     // add a new document
-    post(doc: any): Promise<any>;
+    add(doc: any): Promise<any>;
 
     // update an existing document
-    patch(id: string, doc: any): Promise<any>;
+    update(id: string, doc: any): Promise<any>;
 
     // replace an existing document
-    put(id: string, doc: any): Promise<any>;
+    set(id: string, doc: any): Promise<any>;
 
     // delete a document
     delete(id: string): Promise<any>;
 
     // find a document
-    get(id: string): Observable<any> | Promise<any>;
+    find(id: string): Observable<any> | Promise<any>;
 
+    // query for a collection of documents
+    query(QueryFn?): Observable<any> | Promise<any>;
+
+    // todo implement event interfaces
+    on(e: string, callback: any): any;
+    registerPlugin(plugin: any): any;
 }
