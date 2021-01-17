@@ -12,7 +12,6 @@ const app: DigApp = DigPlatform.factory({
   config: {
     id: 'todo-min',
   },
-  state: {},
   adapters: {
     auth: new CallbackAdapter(() => {
       return of({
@@ -26,10 +25,10 @@ const app: DigApp = DigPlatform.factory({
 });
 
 // static user instance
-console.log(app.user);
+console.log(app.auth().current);
 
 // observable user instance
-app.user$.subscribe(user => console.log(user));
+app.auth().current$.subscribe(user => console.log(user));
 ```
 
 ## Adapters
@@ -80,6 +79,8 @@ const app: DigApp = DigPlatform.factory({
   }
 });
 ```
+
+> Please share your adapter with the community! 
 
 
 

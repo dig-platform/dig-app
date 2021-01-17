@@ -10,26 +10,62 @@ const app: DigApp = DigPlatform.factory({
   config: {
     id: 'todo-min',
   },
-  state: {},
   adapters: {
-    auth: new CallbackAdapter(() => {
-      return of({
-        uid: 'test',
-        email: 'test@email.com',
-        photoURL: 'avatar.jpg',
-        displayName: 'Test User'
-      });
-    })
+    state: new DigStateAdapter({tasks: ['get the milk']})
   }
 });
 
-// static user instance
-console.log(app.user);
+// get the state container
+const taskState = app.state().get('tasks');
 
-// observable user instance
-app.user$.subscribe(user => console.log(user));
+// log the tasks to the console
+taskState.current$.subscribe(console.log);
+
+// get the existing state using the current property, which returns the current static state
+const tasks = {...taskState.current};
+tasks.push('get steak if its nice');
+
+// save the updated tasks
+taskState.set(tasks);
 ```
 
 ## Adapters
 
-Auth adapters provide the current user session to DigApps
+State adapters provide state for your app
+
+### DigStateAdapter
+
+A lightweight, observable state container built on Rxjs Behavior Subjects. See [StateModel](docs/api/classes/models/state-model.store.md) for more details.
+
+```typescript
+// create a new state container for error messages
+const errorStore = app.state().create('error');
+
+try {
+    // connect to db
+} catch (e) {
+    errorStore.set({error: 'Unable to connect to db', read: false});
+}
+
+// display the message to the user
+
+// update the read status
+errorStore.update({read: true});
+
+// reset the error data
+errorStore.reset();
+// or if you need to initialize it with values
+errorStore.set({error: null, read: false});
+
+// destroy the store and observable subscriptions
+errorStore.destroy();
+
+// destroy all state and observable subscriptions
+app.state().destroy();
+```
+
+### NgrxStateAdapter
+
+This adapter is currently in the planning stage, please feel free to share ideas on https://dighub.io/community
+
+
