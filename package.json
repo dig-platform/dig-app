@@ -23,6 +23,8 @@
     "firebase": "^8.2.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
+    "typedoc": "^0.20.16",
+    "typedoc-plugin-markdown": "^3.4.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
