@@ -1,5 +1,4 @@
-
-## Multi Tenant Apps
+# [DigApp](../../README.md) platform
 
 In multi-tenant environments you can create use an instance of DigPlatform to manage your apps. In this example
 we create a service that serves as a hub for your apps, initializing your todo app.

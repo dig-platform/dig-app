@@ -1,4 +1,4 @@
-# [DigApp](../README.md) architecture
+# [DigApp](../../README.md) architecture
 
 DigHub is designed to be a lightweight, extensible container for JavaScript applications.
 
