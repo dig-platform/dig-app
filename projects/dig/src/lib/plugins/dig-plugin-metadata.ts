@@ -1,5 +1,4 @@
 import {DigApp} from '../interfaces';
-import {DigDbModelEvents} from '../models/dig-db-model';
 
 export class DigPluginMetadata {
 
