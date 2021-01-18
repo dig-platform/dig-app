@@ -1,20 +1,21 @@
 # DigApps
 
-The vast majority of apps have the same basic platform dependencies:
+The vast majority of apps have the same basic platform dependencies. DigApps creates a lightweight, immutable app container that provides access to these resources in a consistent way.
 
-* Configuration
-* User authentication
-* Database
-* File storage
-* State
+* [Configuration](/docs/app/config.md)
+* [User authentication](/docs/app/auth.md)
+* [Database](/docs/app/auth.md)
+* [File Storage](/docs/app/auth.md)
+* [State](/docs/app/auth.md)
 
-Thankfully we now have platforms like Firebase to build on that provide almost all of the resources to our app as a service.
+## Installation
 
-DigApps creates a lightweight, immutable app container that provides access to these resources in a consistent way.
+`npm install @dig-platform/dig-app`
 
-## Standalone apps
+## Getting started
 
-For single apps use the static `DigPlatform.factory(options: DigAppOptions)` method to avoid unnecessary overhead:
+DigApps are based on configuration, which should implement [DigConfig](docs/api/interfaces/interfaces.digconfig.md) and 
+adapters for the other resources your app requires.
 
 ```typescript
 @Injectable({
@@ -29,12 +30,12 @@ export class TodoService {
       description: 'Beginner tutorial',
       icon: 'construct',
     },
-    state: {
-      todos: []
-    },
     adapters: {
       db: new AngularFirestoreAdapter(this.afs),
-      auth: new AngularFireAuthAdapter(this.auth)
+      auth: new AngularFireAuthAdapter(this.auth),
+      state: new DigStateAdapter({
+       todos: []
+      })
     }
   });
 
@@ -44,44 +45,27 @@ export class TodoService {
 }
 ```
 
-## Multi Tenant Apps
+## App Resources
 
-In multi-tenant environments you can create use an instance of DigPlatform to manage your apps. In this example
-we create a service that serves as a hub for your apps, initializing your todo app.
+### [Configuration](/docs/app/config.md)
 
-> note that in this example we also specify the dbRoot, which puts your app's data in a subcollection of your database
+DigApps are configuration driven, which makes integration and extension as easy as possible.
 
-```typescript
-@Injectable({
-  providedIn: 'root'
-})
-export class AppHubService {
-  private platform = new DigPlatform();
+### [User authentication](/docs/app/auth.md)
 
-  get todoApp() {
-    return this.platform.get('todo');
-  }
+You can optionally load an authentication adapter which will load the auth state from a wide range of providers into your DigApp.
 
-  constructor(private afs: AngularFirestore, private auth: AngularFireAuth) {
-    this.platform.init({
-      config: {
-        id: 'todo',
-        status: 'plan',
-        dbRoot: 'apps/todoApp',
-        title: 'Todo',
-        description: 'Beginner tutorial',
-        icon: 'construct',
-      },
-      state: {
-        todos: []
-      },
-      adapters: {
-        db: new AngularFirestoreAdapter(this.afs),
-        auth: new AngularFireAuthAdapter(this.auth)
-      }
-    });
-  }
-}
-```
+### [Database](/docs/app/auth.md)
+
+At the time of writing we only support Firebase Firestore, but you can use our generic adapter to integrate with other data sources.
+
+### [File Storage](/docs/app/auth.md)
+
+At the time of writing we only support Firebase Storage, but you can use our generic adapter to integrate with other data sources.
+
+### [State](/docs/app/auth.md)
+
+DigApp ships with a simple Rxjs based state container. An Ngrx adapter is in development.
+
 
 
