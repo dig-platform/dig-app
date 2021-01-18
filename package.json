@@ -7,6 +7,10 @@
     "build": "ng build",
     "build:docs": "typedoc --out projects/dig/docs/api projects/dig/src/lib",
     "build:docs:json": "node bin/docs.js",
+    "deploy": "node bin/publish-version.js",
+    "deploy:patch": "node bin/publish-version.js patch",
+    "deploy:minor": "node bin/publish-version.js minor",
+    "deploy:major": "node bin/publish-version.js major",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
