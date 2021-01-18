@@ -24,7 +24,7 @@ DigApp configuration must implement [DigConfig](../api/interfaces/interfaces.dig
 | Property | Description |
 | -------- | ----------- |
 | `id: string` | unique app id |
-| `status?: null | 'new' | 'plan' | 'dev' | 'test' | 'live'` | current status |
+| `status?: string` | current status |
 | `title?: string` | app title |
 | `description?: string` | app description |
 | `icon?: string` | app icon |
