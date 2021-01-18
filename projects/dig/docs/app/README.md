@@ -8,15 +8,15 @@ DigApps are configuration driven, which makes integration and extension as easy 
 
 You can optionally load an authentication adapter which will load the auth state from a wide range of providers into your DigApp.
 
-## [Database](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/auth.md)
+## [Database](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/db.md)
 
 At the time of writing we only support Firebase Firestore, but you can use our generic adapter to integrate with other data sources.
 
-## [File Storage](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/auth.md)
+## [File Storage](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/storage.md)
 
 At the time of writing we only support Firebase Storage, but you can use our generic adapter to integrate with other data sources.
 
-## [State](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/auth.md)
+## [State](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/state.md)
 
 DigApp ships with a simple Rxjs based state container. An Ngrx adapter is in development.
 
