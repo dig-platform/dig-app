@@ -1,4 +1,4 @@
-# [DigApp](../README.md) auth
+# [DigApp](../README.md) config
 
 DigApps are configuration driven, which makes integration and extension as easy as possible. 
 
