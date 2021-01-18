@@ -35,7 +35,7 @@ State adapters provide state for your app
 
 ### DigStateAdapter
 
-A lightweight, observable state container built on Rxjs Behavior Subjects. See [StateModel](docs/api/classes/models/state-model.store.md) for more details.
+A lightweight, observable state container built on Rxjs Behavior Subjects. See [StateModel](..pi/classes/models/state-model.store.md) for more details.
 
 ```typescript
 // create a new state container for error messages

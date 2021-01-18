@@ -2,11 +2,11 @@
 
 The vast majority of apps have the same basic platform dependencies. DigApps creates a lightweight, immutable app container that provides access to these resources in a consistent way.
 
-* [Configuration](/docs/app/config.md)
-* [User authentication](/docs/app/auth.md)
-* [Database](/docs/app/auth.md)
-* [File Storage](/docs/app/auth.md)
-* [State](/docs/app/auth.md)
+* [Configuration](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/config.md)
+* [User authentication](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/auth.md)
+* [Database](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/auth.md)
+* [File Storage](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/auth.md)
+* [State](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/auth.md)
 
 ## Installation
 
@@ -14,7 +14,7 @@ The vast majority of apps have the same basic platform dependencies. DigApps cre
 
 ## Getting started
 
-DigApps are based on configuration, which should implement [DigConfig](docs/api/interfaces/interfaces.digconfig.md) and 
+DigApps are based on configuration, which should implement [DigConfig](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/api/interfaces/interfaces.digconfig.md) and 
 adapters for the other resources your app requires.
 
 ```typescript
@@ -47,23 +47,23 @@ export class TodoService {
 
 ## App Resources
 
-### [Configuration](/docs/app/config.md)
+### [Configuration](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/config.md)
 
 DigApps are configuration driven, which makes integration and extension as easy as possible.
 
-### [User authentication](/docs/app/auth.md)
+### [User authentication](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/auth.md)
 
 You can optionally load an authentication adapter which will load the auth state from a wide range of providers into your DigApp.
 
-### [Database](/docs/app/auth.md)
+### [Database](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/auth.md)
 
 At the time of writing we only support Firebase Firestore, but you can use our generic adapter to integrate with other data sources.
 
-### [File Storage](/docs/app/auth.md)
+### [File Storage](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/auth.md)
 
 At the time of writing we only support Firebase Storage, but you can use our generic adapter to integrate with other data sources.
 
-### [State](/docs/app/auth.md)
+### [State](https://github.com/dig-platform/dig-app/tree/main/projects/dig/docs/app/auth.md)
 
 DigApp ships with a simple Rxjs based state container. An Ngrx adapter is in development.
 

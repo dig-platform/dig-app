@@ -1,4 +1,4 @@
-[dig](README.md) / Exports
+[dig](../../../../README.md) / Exports
 
 # dig
 
