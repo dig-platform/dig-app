@@ -1,6 +1,11 @@
 {
   "name": "@dig-platform/dig-app",
-  "version": "0.0.4",
+  "version": "0.1.7",
+  "license": "mit",
+  "homepage": "https://github.com/dig-platform/dig-app",
+  "bugs": {
+    "url": "https://github.com/dig-platform/dig-app/issues"
+  },
   "peerDependencies": {
     "@angular/common": "^10.1.6",
     "@angular/core": "^10.1.6",

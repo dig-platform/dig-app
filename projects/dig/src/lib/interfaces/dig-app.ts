@@ -20,5 +20,6 @@ export interface DigApp {
   storage(): any;
   state(): any;
   auth(): any;
+  model(collectionPath: string): any;
 }
 
