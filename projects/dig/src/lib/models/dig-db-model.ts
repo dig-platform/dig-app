@@ -21,7 +21,12 @@ export enum DigDbModelEvents {
 export class DigDbModel  implements DigDocumentModel {
     private events = {};
 
-    constructor(private path: string, private adapter: any) {
+    constructor(private path: string, private adapter: any, private plugins: any[] = []) {
+      if (plugins && plugins.length > 0) {
+        plugins.forEach(plugin => {
+          this.registerPlugin(plugin);
+        });
+      }
     }
 
     collection(queryFn?: QueryFn): any {
@@ -75,11 +80,14 @@ export class DigDbModel  implements DigDocumentModel {
     }
 
     registerPlugin(plugin: any): any {
-        Object.keys(DigDbModelEvents).map(e => {
-           if (plugin.hasOwnProperty(e)) {
-               this.on(e, plugin[e]);
-           }
-        });
+      if (typeof plugin !== 'object') {
+        plugin = new plugin();
+      }
+      Object.keys(DigDbModelEvents).map(e => {
+        if (typeof plugin[e] === 'function') {
+         this.on(e, plugin[e]);
+        }
+      });
     }
 
     private handleEvent(event, ref): any {

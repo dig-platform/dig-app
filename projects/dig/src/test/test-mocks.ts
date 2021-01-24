@@ -33,6 +33,25 @@ export class FirestoreMock {
   }
 }
 
+export class PluginMock {
+  beforeAdd(doc): any {
+    return Object.assign({}, doc, {testEvent: 'beforeAdd'});
+  }
+
+  // todo implement other events
+  // beforeAdd = 'beforeAdd',
+  // afterAdd = 'afterAdd',
+  // beforeUpdate = 'beforeUpdate',
+  // afterUpdate = 'afterUpdate',
+  // beforeDelete = 'beforeDelete',
+  // afterDelete = 'afterDelete',
+  // beforeReadDoc = 'beforeReadDoc',
+  // afterReadDoc = 'afterReadDoc',
+  // beforeReadCollection = 'beforeReadCollection',
+  // afterReadCollection = 'afterReadCollection',
+}
+
+
 export const TEST_USER: DigUser = {
   uid: 'test',
   email: 'test@email.com',

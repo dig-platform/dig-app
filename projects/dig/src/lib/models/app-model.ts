@@ -61,7 +61,13 @@ export class AppModel implements DigApp{
   }
 
   // creates a model instance
-  model(collectionPath: string): DigDbModel {
-    return new DigDbModel(collectionPath, this.db());
+  model(): void {
+    throw new Error('model() method is deprecated, use dbModel() instead');
+  }
+
+  // todo strictly type plugisn
+  dbModel(collectionPath: string, plugins: any[] = null): DigDbModel {
+    const model = new DigDbModel(collectionPath, this.db(), plugins);
+    return model;
   }
 }

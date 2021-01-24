@@ -1,5 +1,7 @@
 import {DigDbModel, DigDbModelEvents} from './dig-db-model';
-import {FirestoreMock} from '../../test/test-mocks';
+import {FirestoreMock, PluginMock} from '../../test/test-mocks';
+import {DigApp} from '../interfaces';
+
 
 describe('DbModel', () => {
   let model;
@@ -105,6 +107,32 @@ describe('DbModel', () => {
       done();
     });
   });
+
+  it ('should load a plugin', (done) => {
+    model.registerPlugin(new PluginMock());
+    model.add({test: true}).then(res => {
+      expect(res.testEvent).toEqual('beforeAdd');
+      done();
+    });
+  });
+
+  it ('should load a plugin by class reference', (done) => {
+    model.registerPlugin(PluginMock);
+    model.add({test: true}).then(res => {
+      expect(res.testEvent).toEqual('beforeAdd');
+      done();
+    });
+  });
+
+  it ('should load plugins in constructor', (done) => {
+    model =   new DigDbModel('test', new FirestoreMock(), [new PluginMock()]);
+    model.add({test: true}).then(res => {
+      expect(res.testEvent).toEqual('beforeAdd');
+      done();
+    });
+  });
+
+
 
   it ('Should delete a document', (done) => {
     model.delete('test').then(res => {

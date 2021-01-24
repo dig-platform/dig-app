@@ -45,7 +45,7 @@ Models provide a common API to your app database.
 ### Example
 
 ```typescript
-const model = app.db().model('todo');
+const model = app.dbModel('todo');
 model.add({text: 'get the milk'});
 // database doc = {text: 'get the milk'}
 ```
@@ -73,7 +73,7 @@ model.add({text: 'get the milk'});
 ### Example
 
 ```typescript
-const model = app.db().model('todo');
+const model = app.dbModel('todo');
 model.on(DigDbModelEvents.beforeAdd, (doc) => Object.assign({}, doc, {status: 'new'}));
 model.add({text: 'get the milk'});
 // database doc = {text: 'get the milk', status: 'new'}
@@ -88,8 +88,7 @@ Plugins enable you to bundle event handlers for reuse.
 DigPluginMetadata adds common metadata to documents
 
 ```typescript
-const model = app.db().model('todo');
-this.model.registerPlugin(new DigPluginMetadata(app));
+const model = app.dbModel('todo', [DigPluginMetadata]);
 ```
 
 | Field | Description |
