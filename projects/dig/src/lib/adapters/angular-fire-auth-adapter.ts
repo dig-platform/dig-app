@@ -20,7 +20,7 @@ export class AngularFireAuthAdapter implements DigAdapter {
   }
   ref(config: DigConfig): any {
     return {
-      current: this.userSession.current,
+      current: () => this.userSession.current,
       current$: this.userSession.current$
     };
   }

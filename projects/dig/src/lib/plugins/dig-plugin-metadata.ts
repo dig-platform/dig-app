@@ -21,6 +21,10 @@ export class DigPluginMetadata {
 
     private getUid(): string {
       const auth = this.app.auth();
-      return auth.current ? auth.current.uid : null;
+      if (! auth) {
+        return null;
+      }
+      const current = auth.current();
+      return current ? current.uid : null;
     }
 }
