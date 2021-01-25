@@ -88,7 +88,7 @@ export class DigDbModel  implements DigDocumentModel {
   }
 
   private handleEvent(event, ref): any {
-    let newRef = {...ref};
+    let newRef = Array.isArray(ref) ? [...ref] : {...ref};
     // handle individual events
     const handler = this.events[event];
     if (handler) {
