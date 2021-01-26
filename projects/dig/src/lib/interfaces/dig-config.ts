@@ -3,7 +3,7 @@ export interface DigConfig {
   readonly id: string;
 
   // current status
-  readonly status?: null | 'new' | 'plan' | 'dev' | 'test' | 'live';
+  readonly status?: string;
 
   // app title
   readonly title?: string;
