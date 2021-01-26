@@ -1,6 +1,6 @@
 import { StateModel } from './state-model';
 
-describe('State', () => {
+fdescribe('State', () => {
   it('should create an instance', () => {
     expect(new StateModel()).toBeTruthy();
   });
@@ -17,5 +17,33 @@ describe('State', () => {
   it('should create a static snapshot', () => {
     const state = new StateModel({test: {value: true}, testArray: ['value', true]});
     const snap = state.snapshot();
+  });
+
+  // test array access
+  it('should push an element to an array', () => {
+    const state = new StateModel({testArray: ['dog']});
+    const container = state.get('testArray');
+    container.push('cat');
+    expect(container.current.length).toEqual(2);
+    expect(container.current.indexOf('cat')).toEqual(1);
+  });
+  it('should pop an element off an array', () => {
+    const state = new StateModel({testArray: ['dog', 'cat']});
+    const container = state.get('testArray');
+    const cat = container.pop();
+    expect(cat).toEqual('cat');
+  });
+  it('should unshift an element to an array', () => {
+    const state = new StateModel({testArray: ['dog']});
+    const container = state.get('testArray');
+    container.unshift('cat');
+    expect(container.current.length).toEqual(2);
+    expect(container.current.indexOf('cat')).toEqual(0);
+  });
+  it('should shift an element off an array', () => {
+    const state = new StateModel({testArray: ['dog', 'cat']});
+    const container = state.get('testArray');
+    const dog = container.shift();
+    expect(dog).toEqual('dog');
   });
 });

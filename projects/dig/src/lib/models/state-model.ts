@@ -55,31 +55,89 @@ export class Store {
 
     readonly current$: Observable<any> = this.store.asObservable();
 
-    update(data: any): void {
-        const state = Object.assign({}, this.current, this.detach(data));
-        this.store.next(state);
-    }
+  constructor(private id: string) {
+  }
 
-    set(data: any): void {
-        this.store.next(this.detach(data));
-    }
+  update(data: any): void {
+      const state = Object.assign({}, this.current, this.detach(data));
+      this.store.next(state);
+  }
 
-    unset(): void {
-        this.store.next(null);
-    }
+  set(data: any): void {
+      this.store.next(this.detach(data));
+  }
 
-    constructor(private id: string) {
-    }
+  unset(): void {
+      this.store.next(null);
+  }
 
-    getKey(): string {
-        return this.id;
-    }
+  // provide array access if this store is an array
+  isArray(): boolean {
+    return Array.isArray(this.current);
+  }
 
-    match(id: string): boolean {
-        return this.id === id;
+  // throws an error if the store is not an array
+  validateArrayMethod(): void {
+    if (! this.isArray()) {
+      throw new Error('Array methods are only enabled for stores that model arrays of data');
     }
+  }
 
-    detach(data: any): void {
-        return Array.isArray(data) ? [...data] : {...data};
+  push(entry: any): void {
+    try {
+      this.validateArrayMethod();
+      const state = [...this.current];
+      state.push(entry);
+      this.set(state);
+    } catch (e) {
+      console.error(e);
     }
+  }
+
+  pop(): any {
+    try {
+      this.validateArrayMethod();
+      const state = [...this.current];
+      const entry = state.pop();
+      this.set(state);
+      return entry;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  shift(): any {
+    try {
+      this.validateArrayMethod();
+      const state = [...this.current];
+      const entry = state.shift();
+      this.set(state);
+      return entry;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  unshift(entry: any): void {
+    try {
+      this.validateArrayMethod();
+      const state = [...this.current];
+      state.unshift(entry);
+      this.set(state);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  getKey(): string {
+      return this.id;
+  }
+
+  match(id: string): boolean {
+      return this.id === id;
+  }
+
+  detach(data: any): void {
+      return Array.isArray(data) ? [...data] : {...data};
+  }
 }

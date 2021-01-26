@@ -64,6 +64,24 @@ errorStore.destroy();
 app.state().destroy();
 ```
 
+#### Array Access
+
+DigState provides direct array access to any stores which model arrays.
+
+> note that you must instantiate your container with an array since DigState will throw an error if your data is not an array
+
+| Method | Description |
+| ------ | ----------- |
+| `push(entry: any): void` | Push an entry onto the end of your array |
+| `pop(): any` | Pop the last entry off your array and return it |
+| `unshift(entry: any): void` | Unshift the entry onto the beginning of your array |
+| `shift(): any` | Shift the first entry off your array and return it |
+
+```typescript
+const userStore = app.state().create('users', []);
+userStore.push({...user});
+```
+
 ### NgrxStateAdapter
 
 This adapter is currently in the planning stage, please feel free to share ideas on https://dighub.io/community
